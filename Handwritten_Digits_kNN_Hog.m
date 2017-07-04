@@ -10,25 +10,10 @@ categories={
 'beaver',         'crocodile',        'emu',              'kangaroo',         'okapi',            'scorpion'        
 };
     %%Extract features
-    featuresDataTrain = ExtractFeaturesHog(imgDataTrain);
+imds = imageDatastore(fullfile(rootFolder,categories),'LabelSource','foldernames');
     
-    %%Build Model kNN
-    Mdl= fitcknn(featuresDataTrain',lblDataTrain);
-    
-    %%Load Data Test
-    strData = 't10k-images.idx3-ubyte';
-    strDataLabel = 't10k-labels.idx1-ubyte';
-    
-    [imgDataTest, lblActualDataTest] = loadData(strData,strDataLabel);
-    
-    %%Extract features
-    featuresDataTest = ExtractFeaturesHog(imgDataTest);
-    
-    %%Save result
-    lblResult = predict(Mdl,featuresDataTest');
-    nResult = (lblResult == lblActualDataTest);
-    nCount=sum(nResult);
-    fprintf('\nSo luong mau dung: %d\n',nCount);
+    %%Load Data Train
+  imds.ReadFcn = @(filename)readAndPreprocessImage2(filename);
 
 end
 

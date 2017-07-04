@@ -41,7 +41,7 @@ featureLayer = 'fc7';
 % 
 % mean(diag(confMat))
 load('modal_cnn.mat');
-newImg = fullfile(rootFolder,'ibis','image_0003.jpg');
+newImg = fullfile(rootFolder,'emu','image_0003.jpg');
 img = readAndPreprocessImage(newImg);
 imageFeature = activations(net, img, featureLayer);
 

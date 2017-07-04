@@ -13,16 +13,18 @@ imds = imageDatastore(fullfile(rootFolder,categories),'LabelSource','foldernames
 tbl1 = countEachLabel(imds);
 minSetCount = min(tbl1{:,2});
 
-[trainingSet, validationSet] = splitEachLabel(imds, 0.7, 'randomize');
+% [trainingSet, validationSet] = splitEachLabel(imds, 0.7, 'randomize');
 
-% bag = bagOfFeatures(trainingSet);
-%save('bagFeatures.mat', 'bag');
+% bag = bagOfFeatures(imds);
+% save('bagFeatures.mat', 'bag');
 load('bagFeatures.mat');
-categoryClassifier = trainImageCategoryClassifier(trainingSet,bag);
+categoryClassifier = trainImageCategoryClassifier(imds,bag);
+save('categoryClassifier.mat',categoryClassifier);
+load('categoryClassifier.mat');
 % confMatrix = evaluate(categoryClassifier,validationSet);
 % mean(diag(confMatrix));
 
-img = imread(fullfile(rootFolder,'ant','image_0003.jpg'));
+img = imread(fullfile(rootFolder,'dolphin','image_0003.jpg'));
 [label, scores] = predict(categoryClassifier,img);
 categoryClassifier.Labels(label)
 end
